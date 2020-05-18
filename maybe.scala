@@ -1,11 +1,11 @@
-sealed trait Maybe[T] {
+sealed trait Maybe[+T] {
 
   def fold[B](empty: B)(full: T => B): B = {
     this match {
 
       case Full(value) => full(value)
 
-      case Empty() => empty
+      case Empty => empty
     }
   }
 
@@ -14,7 +14,7 @@ sealed trait Maybe[T] {
 
       case Full(value) => f(value)
 
-      case Empty() => Empty[B]()
+      case Empty => Empty
     }
   }
 
@@ -24,7 +24,7 @@ sealed trait Maybe[T] {
 
 final case class Full[T](value: T) extends Maybe[T]
 
-final case class Empty[T]() extends Maybe[T]
+case object Empty extends Maybe[Nothing]
 
 
 sealed trait Sum[A, B] {
